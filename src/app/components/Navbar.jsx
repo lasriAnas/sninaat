@@ -224,7 +224,7 @@ export default function Navbar() {
                       "group inline-flex items-center rounded-md bg-transparent text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 "
                     )}
                   >
-                    <span>Tv Shows</span>
+                    <span>about us</span>
                     <ChevronDownIcon
                       className={classNames(
                         open ? "text-gray-600" : "text-gray-400",
