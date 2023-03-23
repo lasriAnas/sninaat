@@ -1,20 +1,42 @@
 "use client";
 import React from "react";
 import { color, delay, motion } from "framer-motion";
-import Image from "next/image";
+import Link from "next/link";
 
 export default function FirstFrame() {
   return (
-    <div className="grid grid-cols-2 bg-orange-500 w-full h-[calc(100vh-4.1rem)]">
-      <div className="justify-self-center self-center">
-        <motion.div
-          animate={{ fontSize: "70px", color: "brown", delay: "1ms" }}
-          className="text-transparent"
+    <div className="bg-firstframeSM sm:bg-firstframe flex flex-col items-start justify-center bg-cover w-full h-[calc(100vh-4.1rem)] ">
+      <motion.aside
+        animate={{ fontSize: "50px", color: "rgb(8, 145, 178)" }}
+        transition={{ delay: 1.5 }}
+        className="ml-8 text-transparent text-center"
+      >
+        POLYCLINIQUE <br /> DENTAIRE{" "}
+      </motion.aside>{" "}
+      <div className="space-x-5">
+        <motion.button
+          className="my-20 bg-cyan-600 rounded px-2"
+          initial={{ x: -5000 }}
+          animate={{ x: 60 }}
+          transition={{
+            type: "tween",
+            delay: 1.5,
+          }}
         >
-          Lorem ipsum dolor sit{" "}
-        </motion.div>{" "}
+          <Link href="/rendez-vous">RENDEZ-VOUS</Link>
+        </motion.button>
+        <motion.button
+          className="my-20 bg-cyan-600 rounded px-2"
+          initial={{ x: -5000 }}
+          animate={{ x: 60 }}
+          transition={{
+            type: "tween",
+            delay: 1.7,
+          }}
+        >
+          <Link href="/rendez-vous">NOS SERVICES</Link>
+        </motion.button>
       </div>
-      <div className="justify-self-center self-center">image</div>
     </div>
   );
 }

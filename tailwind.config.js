@@ -9,7 +9,15 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        firstframe: "url('/dentist-with-smile.jpg')",
+        firstframeSM:
+          "url('/young-female-patient-having-dental-procedure-orthodontist.jpg')",
+        info: "url('/pexels-anna-shvets-3845735_1480x850.webp')",
+        infoSM: "url('/dentist-doing-check-up-patient.jpg')",
+      },
+    },
   },
   plugins: [],
 };
