@@ -10,10 +10,12 @@ export default function RootLayout({ children }) {
         head.jsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body>
-        <Navbar />
-        {children}
-        <Footer />
+      <body className="antialiased bg-white font-sans text-gray-900">
+        <main className="w-full">
+          <Navbar />
+          {children}
+          <Footer />
+        </main>
       </body>
     </html>
   );
