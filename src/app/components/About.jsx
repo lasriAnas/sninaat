@@ -4,7 +4,7 @@ import React from "react";
 
 export default function About() {
   return (
-    <div>
+    <div id="info">
       {" "}
       <section className="relative px-4 py-16 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 lg:py-32">
         <div className="flex flex-col lg:flex-row lg:-mx-8">
@@ -20,9 +20,9 @@ export default function About() {
               Découvrez notre cabinet dentaire hautement qualifié. Nos dentistes
               expérimentés utilisent les dernières technologies pour vous offrir
               un traitement efficace et confortable. Avec notre équipe
-              accueillante, vous serez mis à l'aise dès votre arrivée. Prenez
-              rendez-vous dès aujourd'hui pour une consultation et assurez une
-              bonne santé bucco-dentaire.
+              accueillante, vous serez mis à l&apos;aise dès votre arrivée.
+              Prenez rendez-vous dès aujourd&apos;hui pour une consultation et
+              assurez une bonne santé bucco-dentaire.
             </p>
           </div>
 
@@ -55,10 +55,10 @@ export default function About() {
                 <p className="mt-2 leading-relaxed">
                   Votre plan de traitement correspondra parfaitement à vos
                   besoins, mode de vie et objectifs. Même si ça fait des années
-                  que tu n'as pas duré visité le dentiste, nous pouvons vous
-                  aider. Notre bureau confortable, équipe compatissante et des
-                  traitements mini-invasifs vous aider à vous sentir
-                  complètement à l'aise.
+                  que tu n&apos;as pas duré visité le dentiste, nous pouvons
+                  vous aider. Notre bureau confortable, équipe compatissante et
+                  des traitements mini-invasifs vous aider à vous sentir
+                  complètement à l&apos;aise.
                 </p>
               </div>
             </div>

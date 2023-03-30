@@ -2,7 +2,10 @@ import React from "react";
 
 export default function Blog() {
   return (
-    <section className="relative bg-white px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 py-32">
+    <section
+      id="blog"
+      className="relative bg-white px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 py-32"
+    >
       <div className="">
         <h2 className="text-3xl leading-tight font-bold">Health Blog</h2>
         <p className="text-gray-600 mt-2 md:max-w-lg">

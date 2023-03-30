@@ -8,6 +8,7 @@ import About from "./components/about";
 import Blog from "./components/Blog";
 import Cta from "./components/Cta";
 import Testimonial from "./components/Testimonial";
+import Forms from "./components/Form";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ export default function Home() {
       <Testimonial />
       <Blog />
       <Cta />
+      <Forms />
     </main>
   );
 }

@@ -386,7 +386,7 @@ export default function Navbar() {
 
       <div className="flex flex-wrap items-center justify-between py-6">
         <div className="w-1/2 md:w-auto">
-          <a href="index.html" className="flex text-white font-bold text-2xl">
+          <a href="/" className="flex text-white font-bold text-2xl">
             Sninaat
             <Image
               className="h-10 w-11 sm:h-10 "
@@ -419,7 +419,7 @@ export default function Navbar() {
               <li>
                 <a
                   className="py-2 inline-block md:text-white md:hidden lg:block font-semibold"
-                  href="#"
+                  href="#info"
                 >
                   Informations
                 </a>
@@ -427,15 +427,7 @@ export default function Navbar() {
               <li className="md:ml-4">
                 <a
                   className="py-2 inline-block md:text-white md:px-2 font-semibold"
-                  href="#"
-                >
-                  Traitements
-                </a>
-              </li>
-              <li className="md:ml-4">
-                <a
-                  className="py-2 inline-block md:text-white md:px-2 font-semibold"
-                  href="#"
+                  href="#testimonials"
                 >
                   Témoignages
                 </a>
@@ -443,7 +435,7 @@ export default function Navbar() {
               <li className="md:ml-4 md:hidden lg:block">
                 <a
                   className="py-2 inline-block md:text-white md:px-2 font-semibold"
-                  href="#"
+                  href="#blog"
                 >
                   Blog
                 </a>
@@ -451,7 +443,7 @@ export default function Navbar() {
               <li className="md:ml-4">
                 <a
                   className="py-2 inline-block md:text-white md:px-2 font-semibold"
-                  href="#"
+                  href="#contact"
                 >
                   Contactez-nous
                 </a>
@@ -459,7 +451,7 @@ export default function Navbar() {
               <li className="md:ml-6 mt-3 md:mt-0">
                 <a
                   className="inline-block font-semibold px-4 py-2 text-white bg-blue-600 md:bg-transparent md:text-white border border-white rounded"
-                  href="book-appointment.html"
+                  href="/rendez-vous"
                 >
                   Rendez-Vous
                 </a>
