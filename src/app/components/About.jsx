@@ -1,8 +1,12 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import { delay, motion } from "framer-motion";
 
 export default function About() {
+  const atrributes = {
+    whileHover: { scale: 1.05 },
+    transition: { type: "spring", stiffness: 400, damping: 10 },
+  };
   return (
     <div id="info">
       {" "}
@@ -66,7 +70,7 @@ export default function About() {
         </div>
 
         <div className="md:flex md:flex-wrap mt-24 text-center md:-mx-4">
-          <div className="md:w-1/2 md:px-4 lg:w-1/4">
+          <motion.div {...atrributes} className="md:w-1/2 md:px-4 lg:w-1/4">
             <div className="bg-white rounded-lg border border-gray-300 p-8">
               <Image
                 src="images/teeth-whitening.svg"
@@ -77,14 +81,16 @@ export default function About() {
               />
 
               <h4 className="text-lg font-bold mt-4">Teeth Whitening</h4>
-              <p className="mt-1">Let us show you how our experience.</p>
               <a href="#" className="block mt-4">
                 Read More
               </a>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="md:w-1/2 md:px-4 mt-4 md:mt-0 lg:w-1/4">
+          <motion.div
+            {...atrributes}
+            className="md:w-1/2 md:px-4 mt-4 md:mt-0 lg:w-1/4"
+          >
             <div className="bg-white rounded-lg border border-gray-300 p-8">
               <Image
                 src="images/oral-surgery.svg"
@@ -95,14 +101,16 @@ export default function About() {
               />
 
               <h4 className="text-xl font-bold mt-4">Oral Surgery</h4>
-              <p className="mt-1">Let us show you how our experience.</p>
               <a href="#" className="block mt-4">
                 Read More
               </a>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="md:w-1/2 md:px-4 mt-4 md:mt-8 lg:mt-0 lg:w-1/4">
+          <motion.div
+            {...atrributes}
+            className="md:w-1/2 md:px-4 mt-4 md:mt-8 lg:mt-0 lg:w-1/4"
+          >
             <div className="bg-white rounded-lg border border-gray-300 p-8">
               <Image
                 src="images/painless-dentistry.svg"
@@ -112,15 +120,19 @@ export default function About() {
                 height="100"
               />
 
-              <h4 className="text-xl font-bold mt-4">Painless Dentistry</h4>
-              <p className="mt-1">Let us show you how our experience.</p>
+              <h4 className="text-xl font-bold mt-4 w-44">
+                Painless Dentistry
+              </h4>
               <a href="#" className="block mt-4">
                 Read More
               </a>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="md:w-1/2 md:px-4 mt-4 md:mt-8 lg:mt-0 lg:w-1/4">
+          <motion.div
+            {...atrributes}
+            className="md:w-1/2 md:px-4 mt-4 md:mt-8 lg:mt-0 lg:w-1/4"
+          >
             <div className="bg-white rounded-lg border border-gray-300 p-8">
               <Image
                 src="images/periodontics.svg"
@@ -131,12 +143,11 @@ export default function About() {
               />
 
               <h4 className="text-xl font-bold mt-4">Periodontics</h4>
-              <p className="mt-1">Let us show you how our experience.</p>
               <a href="#" className="block mt-4">
                 Read More
               </a>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
     </div>

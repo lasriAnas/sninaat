@@ -37,7 +37,7 @@ export default function Footer() {
             </form>
           </div>
 
-          <div className="w-full lg:w-1/6 mt-8 lg:mt-0 lg:mx-4">
+          {/* <div className="w-full lg:w-1/6 mt-8 lg:mt-0 lg:mx-4">
             <h5 className="uppercase tracking-wider font-semibold text-gray-500">
               Treatments
             </h5>
@@ -58,7 +58,7 @@ export default function Footer() {
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
 
           <div className="w-full lg:w-2/6 mt-8 lg:mt-0 lg:mx-4 lg:pr-8">
             <h5 className="uppercase tracking-wider font-semibold text-gray-500">

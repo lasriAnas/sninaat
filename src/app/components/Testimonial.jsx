@@ -4,7 +4,7 @@ export default function Testimonial() {
   return (
     <section
       id="testimonials"
-      className="relative bg-gray-100 px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 py-16 lg:py-32"
+      className="relative bg-gray-100 px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 py-16 lg:py-32 h-screen"
     >
       <div className="flex flex-col lg:flex-row lg:-mx-8">
         <div className="w-full lg:w-1/2 lg:px-8">

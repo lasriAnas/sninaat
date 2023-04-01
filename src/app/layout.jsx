@@ -1,5 +1,3 @@
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
 import "./globals.css";
 
 export default function RootLayout({ children }) {
@@ -11,11 +9,7 @@ export default function RootLayout({ children }) {
       */}
       <head />
       <body className="antialiased bg-white font-sans text-gray-900">
-        <main className="w-full">
-          <Navbar />
-          {children}
-          <Footer />
-        </main>
+        <main className="w-full">{children}</main>
       </body>
     </html>
   );

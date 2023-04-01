@@ -1,22 +1,36 @@
 "use client";
-
-import { signInWithEmailAndPassword } from "firebase/auth";
-import react, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
+import { useState, useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "utils/firebase";
 
 export default function SignIn() {
+  const auth = getAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const route = useRouter();
+  const [user, loading] = useAuthState(auth);
 
   const signIn = (e) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredentials) => {
-        console.log(userCredentials);
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(userCredential);
       })
       .catch((error) => {
         console.log(error);
       });
+
+    setEmail("");
+    setPassword("");
+
+    if (user) {
+      route.push("/admin/calendar");
+    } else {
+      console.log("login");
+    }
   };
 
   return (
@@ -37,7 +51,7 @@ export default function SignIn() {
                   htmlFor="email"
                   className="block mb-2 text-sm font-medium text-gray-900 "
                 >
-                  Your email
+                  Votre email
                 </label>
                 <input
                   type="email"
@@ -53,9 +67,9 @@ export default function SignIn() {
               <div>
                 <label
                   htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className="block mb-2 text-sm font-medium text-gray-900 "
                 >
-                  Mot De Passe
+                  Mot de Passe
                 </label>
                 <input
                   type="password"
