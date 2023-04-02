@@ -18,19 +18,13 @@ export default function SignIn() {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(userCredential);
+        route.push("/admin/dashboard");
       })
       .catch((error) => {
         console.log(error);
       });
-
     setEmail("");
     setPassword("");
-
-    if (user) {
-      route.push("/admin/calendar");
-    } else {
-      console.log("login");
-    }
   };
 
   return (

@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { delay, motion } from "framer-motion";
+import Link from "next/link";
 
 export default function About() {
   const atrributes = {
@@ -81,8 +82,8 @@ export default function About() {
               />
 
               <h4 className="text-lg font-bold mt-4">Teeth Whitening</h4>
-              <a href="#" className="block mt-4">
-                Read More
+              <a href="/informations" className="block mt-4">
+                En savoir plus
               </a>
             </div>
           </motion.div>
@@ -101,8 +102,8 @@ export default function About() {
               />
 
               <h4 className="text-xl font-bold mt-4">Oral Surgery</h4>
-              <a href="#" className="block mt-4">
-                Read More
+              <a href="/informations" className="block mt-4">
+                En savoir plus
               </a>
             </div>
           </motion.div>
@@ -123,9 +124,9 @@ export default function About() {
               <h4 className="text-xl font-bold mt-4 w-44">
                 Painless Dentistry
               </h4>
-              <a href="#" className="block mt-4">
-                Read More
-              </a>
+              <Link href="/informations" className="block mt-4">
+                En savoir plus
+              </Link>
             </div>
           </motion.div>
 
@@ -143,8 +144,8 @@ export default function About() {
               />
 
               <h4 className="text-xl font-bold mt-4">Periodontics</h4>
-              <a href="#" className="block mt-4">
-                Read More
+              <a href="/informations" className="block mt-4">
+                En savoir plus
               </a>
             </div>
           </motion.div>

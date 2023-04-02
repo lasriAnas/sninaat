@@ -1,227 +1,115 @@
 "use client";
-/* 
-import React from "react";
-import { motion } from "framer-motion";
-
-export default function page() {
-  return (
-    <div className="h-screen">
-      <div>bingus</div>
-      <motion.div
-        className="w-10 h-10 bg-red-600"
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ rotate: 180, scale: 1, opacity: 1 }}
-        transition={{
-          duration: 5,
-          type: "spring",
-          stiffness: 260,
-          damping: 200,
-        }}
-      />
-    </div>
-  );
-}
- */
+import { Tab } from "@headlessui/react";
+import { Fragment, useState } from "react";
 import Image from "next/image";
-import { Disclosure } from "@headlessui/react";
-import { ChevronUpIcon } from "@heroicons/react/20/solid";
+import React from "react";
+import Navbar from "../components/Navbar";
 
-export default function App() {
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
+
+export default function Info() {
+  /* --------------------------------data----------------------------- */
+  let [categories] = useState({
+    "Blanchissement dentaire": [
+      {
+        id: 1,
+        fyi: "Le blanchiment des dents est une procédure cosmétique qui utilise des produits chimiques pour éliminer les taches et rendre les dents plus blanches. \n\n Avant de commencer un traitement de blanchiment des dents, il est recommandé de consulter un dentiste pour évaluer la santé de vos dents et déterminer si vous êtes un bon candidat pour la procédure. \n\n Il existe plusieurs options de blanchiment des dents, notamment le blanchiment à domicile avec des plateaux remplis de gel blanchissant, le blanchiment en cabinet avec des lampes LED, ou encore les traitements au peroxyde d'hydrogène. \n\n  Les résultats du blanchiment des dents peuvent varier en fonction de plusieurs facteurs, tels que la couleur initiale de vos dents, votre régime alimentaire et vos habitudes de consommation (tabac, café, thé, vin rouge, etc.), ainsi que la méthode de blanchiment utilisée. \n\n Il est important de suivre les instructions du dentiste ou du fabricant de produits de blanchiment pour éviter les effets secondaires tels que la sensibilité dentaire ou les irritations des gencives. \n\n Bien que le blanchiment des dents soit considéré comme sûr, il est recommandé de limiter la fréquence des traitements pour éviter d'endommager l'émail des dents.",
+        image: "/images/teeth_whitening_900x500.jpg",
+      },
+    ],
+    "Chirurgie buccale": [
+      {
+        id: 2,
+        fyi: "La chirurgie orale est une branche de la médecine dentaire qui se concentre sur les interventions chirurgicales dans la bouche, y compris les dents, les gencives, la mâchoire et les tissus mous. \n\n Si vous envisagez une chirurgie orale, il est important de discuter avec votre chirurgien dentiste des avantages et des risques potentiels associés à l'intervention. \n\n Selon la nature de l'intervention, vous pouvez avoir besoin d'une anesthésie locale ou générale. Après l'intervention, vous devrez suivre les instructions de votre chirurgien dentiste pour assurer une guérison rapide et efficace. \n\n Cela peut inclure des changements temporaires à votre régime alimentaire et des soins supplémentaires pour éviter les complications postopératoires. Il est également important de prévoir du temps pour récupérer et de ne pas retourner au travail ou aux activités normales trop rapidement.",
+        image: "/images/og_male_dds_female_asst_procedure-1.jpg",
+      },
+    ],
+    "Dentisterie indolore": [
+      {
+        id: 3,
+        fyi: " La dentisterie sans douleur est une approche de la dentisterie qui utilise des techniques et des technologies avancées pour minimiser la douleur et l'inconfort associés aux traitements dentaires. \n\n Si vous cherchez des traitements dentaires sans douleur, vous pouvez discuter avec votre dentiste de diverses options pour minimiser la douleur et l'inconfort pendant les traitements. \n\n  Certaines de ces options peuvent inclure l'utilisation d'anesthésiques locaux ou de sédation consciente pour vous aider à vous détendre pendant les traitements. \n\n De plus, les dentistes sans douleur peuvent utiliser des techniques avancées pour minimiser la douleur, telles que l'utilisation de lasers ou de technologies numériques pour rendre les traitements plus précis et plus efficaces. \n\n Il est important de discuter de vos préférences et de vos préoccupations avec votre dentiste pour trouver la meilleure approche pour vos besoins.  \n\n Il est également important de continuer à suivre une bonne hygiène bucco-dentaire et de visiter régulièrement votre dentiste pour prévenir les problèmes dentaires et éviter les traitements douloureux à l'avenir.",
+        image: "/images/AdobeStock_415618291__2___1670285334_24585.jpg",
+      },
+    ],
+    Parodontie: [
+      {
+        id: 3,
+        fyi: " La prodontie est une branche de la dentisterie qui se concentre sur la reconstruction et la restauration complète de la bouche, y compris les dents, les gencives, les muscles et les articulations. \n\n Si vous envisagez une prodontie, il est important de discuter avec votre dentiste des options de traitement disponibles pour restaurer la fonction et l'apparence de votre bouche. \n\n Les traitements de prodontie peuvent inclure la pose de couronnes, de bridges, d'implants dentaires ou de prothèses dentaires complètes, selon les besoins de chaque patient. \n\n Votre dentiste peut également utiliser des techniques avancées telles que la planification numérique pour s'assurer que les traitements sont précis et efficaces. \n\n Avant de commencer les traitements, votre dentiste évaluera l'état de votre bouche et créera un plan de traitement personnalisé en fonction de vos besoins. \n\n Il est important de suivre les instructions de votre dentiste pour assurer une guérison rapide et efficace après les traitements de prodontie. Cela peut inclure des soins supplémentaires à domicile et des visites régulières chez le dentiste pour assurer la santé à long terme de votre bouche.",
+        image: "/images/45065060-36559967.png",
+      },
+    ],
+  });
+  /* ---------<Navbar />-----------------------end data----------------------------- */
+
   return (
-    <div className="content-center min-h-screen w-full pt-16 bg-sky-300">
-      <div className="content-center mx-auto my- w-full max-w-6xl rounded-2xl bg-white p-2">
-        <h1 className="flex justify-center my-auto text-purple-900 text-3xl">
-          INFORMATIONS
-        </h1>
-        <Disclosure>
-          {({ open }) => (
-            <>
-              <Disclosure.Button className="my-2 flex w-full justify-between rounded-lg bg-purple-100 px-4 py-2 text-left text-lg font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                <span>Prothèse dentaire</span>
-                <ChevronUpIcon
-                  className={`${
-                    open ? "rotate-180 transform" : ""
-                  } h-5 w-5 text-purple-500`}
-                />
-              </Disclosure.Button>
-              <Disclosure.Panel className="px-4 pt-4 pb-2 text-lg text-gray-500 max-h-60 sm:max-h-[1000px] overflow-scroll sm:overflow-auto">
-                <div>
-                  <p className="text-lg ">
-                    nous réalisons tout types de prothèses dentaires. L’implant
-                    dentaire est la solution idéale pour remplacer une ou
-                    plusieurs dents manquantes. Nous pouvons vous offrir un
-                    remplacement dentaire permanent et esthétique qui vous
-                    donnera l’impression d’avoir à nouveau votre propre dent.
-                    <br />
-                    <br />
-                    {/*  */}
-                    Notre chirurgien dentiste possède un double diplôme en
-                    médecine et en dentisterie, ainsi qu’une formation
-                    supplémentaire en chirurgie maxillo-faciale, ce qui fait de
-                    lui la personne à consulter pour votre chirurgie. Il utilise
-                    des techniques chirurgicales avancées et des matériaux de la
-                    plus haute qualité, ce qui lui permet d’obtenir des implants
-                    dentaires d’apparence naturelle et durables à long terme.
-                    <br />
-                    <br />
-                    {/*  */}
-                    Le blanchiment est un processus par de décoloration des
-                    dents vers une teinte plus claire. Il élimine l’agent
-                    colorant par des moyens chimiques. Il s’agit d’une procédure
-                    sûre lorsqu’elle est effectuée sous la supervision d’un
-                    professionnel. Les résultats du traitement dépendent
-                    généralement de la gravité de la décoloration. Les dents
-                    vivantes et dévitalisées (p. ex. les dents dont la racine a
-                    été enlevée) peuvent être toutes deux blanchies en une ou
-                    plusieurs visites à la clinique. En revanche, le blanchiment
-                    dentaire n’est pas efficace sur les restaurations dentaires
-                    telles que les couronnes en métal ou en céramique.
-                  </p>
-                </div>
-              </Disclosure.Panel>
-            </>
-          )}
-        </Disclosure>
-        <Disclosure>
-          {({ open }) => (
-            <>
-              <Disclosure.Button className="my-2 flex w-full justify-between rounded-lg bg-purple-100 px-4 py-2 text-left text-lg font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                <span>Blanchiment des dents</span>
-                <ChevronUpIcon
-                  className={`${
-                    open ? "rotate-180 transform" : ""
-                  } h-5 w-5 text-purple-500`}
-                />
-              </Disclosure.Button>
-              <Disclosure.Panel className="px-4 pt-4 pb-2 text-lg text-gray-500 max-h-60 sm:max-h-[1000px] overflow-scroll sm:overflow-auto">
-                <div>
-                  <p className="text-lg max-h-60 sm:max-h-[1000px]">
-                    Les dents peuvent se décolorer pour diverses raisons. Le
-                    dentiste vous recommandera la méthode la plus idéale en
-                    fonction de votre condition bucco-dentaire après un examen
-                    afin de déterminer la cause et la nature de la décoloration
-                    de vos dents, et vous fournira plus d’informations sur les
-                    différents types de procédures de blanchiment disponibles,
-                    la durée et la fréquence du traitement.
-                  </p>
-                </div>
-              </Disclosure.Panel>
-            </>
-          )}
-        </Disclosure>
-        <Disclosure>
-          {({ open }) => (
-            <>
-              <Disclosure.Button className="my-2 flex w-full justify-between rounded-lg bg-purple-100 px-4 py-2 text-left text-lg font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                <span>Implant dentaire</span>
-                <ChevronUpIcon
-                  className={`${
-                    open ? "rotate-180 transform" : ""
-                  } h-5 w-5 text-purple-500`}
-                />
-              </Disclosure.Button>
-              <Disclosure.Panel className="px-4 pt-4 pb-2 text-lg text-gray-500 sm:overflow-auto">
-                <div>
-                  <p className="text-lg max-h-60 sm:max-h-[1000px] overflow-scroll">
-                    L’implantologie est une procédure qui remplace les racines
-                    des dents par des tenons métalliques vissés et remplace les
-                    dents endommagées ou manquantes par des dents artificielles
-                    qui ressemblent à de vraies dents et qui fonctionnent comme
-                    des dents réelles. Les implants dentaires peuvent offrir une
-                    alternative aux prothèses dentaires ou aux bridges. La façon
-                    dont la chirurgie implantaire dentaire est pratiquée dépend
-                    du type d’implant et de l’état de l’os de votre mâchoire. La
-                    chirurgie d’implant dentaire peut impliquer plusieurs
-                    procédures. Le principal avantage des implants est un
-                    support solide pour vos nouvelles dents – un processus qui
-                    exige que l’os cicatrise bien autour de l’implant. Parce que
-                    cette guérison exige du temps, le processus peut prendre
-                    plusieurs mois.
-                  </p>
-                </div>
-              </Disclosure.Panel>
-            </>
-          )}
-        </Disclosure>
-        <Disclosure>
-          {({ open }) => (
-            <>
-              <Disclosure.Button className="my-2 flex w-full justify-between rounded-lg bg-purple-100 px-4 py-2 text-left text-lg font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                <span>Chirurgie parodontale</span>
-                <ChevronUpIcon
-                  className={`${
-                    open ? "rotate-180 transform" : ""
-                  } h-5 w-5 text-purple-500`}
-                />
-              </Disclosure.Button>
-              <Disclosure.Panel className="px-4 pt-4 pb-2 text-lg text-gray-500 max-h-60 sm:max-h-[1000px] overflow-scroll sm:overflow-auto">
-                <div>
-                  <p className="text-lg max-h-60 sm:max-h-[1000px]">
-                    LES SOINS DE GENCIVES, DÉTARTRAGES, CURETAGES, SURFACAGES
-                    RADICULAIRES, PLASTIE GINGIVALE PEUVENT ÊTRE RÉALISÉS AU
-                    COURS DE LA MÊME SÉANCE
-                  </p>
-                </div>
-              </Disclosure.Panel>
-            </>
-          )}
-        </Disclosure>
-        <Disclosure>
-          {({ open }) => (
-            <>
-              <Disclosure.Button className="my-2 flex w-full justify-between rounded-lg bg-purple-100 px-4 py-2 text-left text-lg font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                <span>Orthodontie</span>
-                <ChevronUpIcon
-                  className={`${
-                    open ? "rotate-180 transform" : ""
-                  } h-5 w-5 text-purple-500`}
-                />
-              </Disclosure.Button>
-              <Disclosure.Panel className="px-4 pt-4 pb-2 text-lg text-gray-500 max-h-60 sm:max-h-[1000px] overflow-scroll sm:overflow-auto">
-                <div>
-                  <p className="text-lg max-h-60 sm:max-h-[1000px]">
-                    L’objectif du traitement est de corriger les dysmorphoses
-                    Dento-Maxillo-Faciales, c’est à dire des dents en
-                    mal-position, les déformations des maxillaires. Il n’y a pas
-                    que l’aspect esthétique à améliorer, d’autres fonctions
-                    comme la respiration, la phonation, la mastication, la
-                    déglutition permettront de rétablir la beauté d’un sourire.{" "}
-                    <br />
-                    <b>
-                      <i>
-                        Un bilan est nécessaire avant chaque type de traitement
-                      </i>
-                    </b>
-                  </p>
-                </div>
-              </Disclosure.Panel>
-            </>
-          )}
-        </Disclosure>{" "}
-        <Disclosure>
-          {({ open }) => (
-            <>
-              <Disclosure.Button className="my-2 flex w-full justify-between rounded-lg bg-purple-100 px-4 py-2 text-left text-lg font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                <span>Blanchiment dentaire</span>
-                <ChevronUpIcon
-                  className={`${
-                    open ? "rotate-180 transform" : ""
-                  } h-5 w-5 text-purple-500`}
-                />
-              </Disclosure.Button>
-              <Disclosure.Panel className="px-4 pt-4 pb-2 text-lg text-gray-500 max-h-60 sm:max-h-[1000px] overflow-scroll sm:overflow-auto">
-                <div>
-                  <p className="text-lg max-h-60 sm:max-h-[1000px]">
-                    LES SOINS DE GENCIVES, DÉTARTRAGES, CURETAGES, SURFACAGES
-                    RADICULAIRES, PLASTIE GINGIVALE PEUVENT ÊTRE RÉALISÉS AU
-                    COURS DE LA MÊME SÉANCE
-                  </p>
-                </div>
-              </Disclosure.Panel>
-            </>
-          )}
-        </Disclosure>
-      </div>
+    <div>
+      <section className="flex justify-center items-center min-h-screen">
+        <div className="w-11/12 md:w-5/6 px-2 py-16 sm:px-0">
+          <Tab.Group>
+            <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
+              {Object.keys(categories).map((category) => (
+                <Tab
+                  key={category}
+                  className={({ selected }) =>
+                    classNames(
+                      "w-full rounded-lg py-2.5 text-lg font-medium leading-5 text-blue-700",
+                      "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
+                      selected
+                        ? "bg-white shadow"
+                        : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                    )
+                  }
+                >
+                  {category}
+                </Tab>
+              ))}
+            </Tab.List>
+            <Tab.Panels className="mt-2">
+              {Object.values(categories).map((posts, idx) => (
+                <Tab.Panel
+                  key={idx}
+                  className={classNames(
+                    "rounded-xl bg-white p-3",
+                    "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
+                  )}
+                >
+                  <ul>
+                    {posts.map((post) => (
+                      <div
+                        key={post.id}
+                        className="relative rounded-md p-3 grid grid-cols-1" /* flex flex-col justify-center items-center */
+                      >
+                        <div className="flex justify-center items-center">
+                          <Image
+                            className="rounded mb-6 self-center"
+                            src={post.image}
+                            width="500"
+                            height="350"
+                            alt="logo"
+                          />
+                        </div>
+
+                        <br />
+
+                        <p className="text-base text-gray-700 font-medium leading-5">
+                          {post.fyi.split("\n").map((line, index) => (
+                            <React.Fragment key={index}>
+                              {line}
+                              <br />
+                            </React.Fragment>
+                          ))}
+                        </p>
+                      </div>
+                    ))}
+                  </ul>
+                </Tab.Panel>
+              ))}
+            </Tab.Panels>
+          </Tab.Group>
+        </div>
+      </section>
     </div>
   );
 }

@@ -15,7 +15,7 @@ export default function Footer() {
               <div className="w-full">
                 <label
                   className="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2"
-                  for="grid-last-name"
+                  htmlFor="grid-last-name"
                 >
                   Abonnez-Vous a notre bulletin
                 </label>

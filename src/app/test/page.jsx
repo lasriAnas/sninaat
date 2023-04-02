@@ -1,74 +1,52 @@
 "use client";
 import React from "react";
-import { Formik, Field } from "formik";
 import DatePicker from "react-datepicker";
+import { useFormik } from "formik";
 import "react-datepicker/dist/react-datepicker.css";
-import {
-  addBusinessDays,
-  isWeekend,
-  setHours,
-  setMinutes,
-  isAfter,
-  isBefore,
-} from "date-fns";
 
-const MyForm = () => {
-  const today = new Date();
-  const nextBusinessDay = addBusinessDays(today, 1);
+const DateTime = () => {
+  const formik = useFormik({
+    initialValues: {
+      dateTime: new Date(),
+    },
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
 
-  const isBusinessDay = (date) => {
-    return !isWeekend(date);
+  const isWeekday = (date) => {
+    const day = date.getDay();
+    return day !== 0 && day !== 6;
   };
 
-  const isBusinessHour = (date) => {
-    const businessStartTime = setHours(setMinutes(today, 0), 9);
-    const businessEndTime = setHours(setMinutes(today, 0), 17);
-
-    return isAfter(date, businessStartTime) && isBefore(date, businessEndTime);
+  const filterTime = (time) => {
+    const hour = time.getHours();
+    return hour >= 9 && hour <= 17;
   };
-
-  const excludeDates = [];
-  let currentDate = nextBusinessDay;
-  while (excludeDates.length < 10) {
-    if (isBusinessDay(currentDate) && isBusinessHour(currentDate)) {
-      excludeDates.push(currentDate);
-    }
-    currentDate = addBusinessDays(currentDate, 1);
-  }
 
   return (
-    <Formik initialValues={{ date: nextBusinessDay }}>
-      {({ values, setFieldValue }) => (
-        <form className="max-w-md mx-auto">
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 font-bold mb-2"
-              htmlFor="date"
-            >
-              Date and Time
-            </label>
-            <Field name="date">
-              {({ field }) => (
-                <DatePicker
-                  {...field}
-                  selected={values.date}
-                  onChange={(date) => setFieldValue("date", date)}
-                  excludeDates={excludeDates}
-                  showTimeSelect
-                  timeFormat="HH:mm"
-                  timeIntervals={15}
-                  minTime={setHours(setMinutes(today, 0), 9)}
-                  maxTime={setHours(setMinutes(today, 0), 17)}
-                  dateFormat="MMMM d, yyyy h:mm aa"
-                  className="w-full px-3 py-2 placeholder-gray-400 text-gray-700 relative bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              )}
-            </Field>
-          </div>
-        </form>
-      )}
-    </Formik>
+    <form onSubmit={formik.handleSubmit}>
+      <DatePicker
+        selected={formik.values.dateTime}
+        onChange={(value) => formik.setFieldValue("dateTime", value)}
+        name="dateTime"
+        className="block w-full p-2 rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:ring-opacity-50"
+        showTimeSelect
+        timeFormat="HH:mm"
+        timeIntervals={60}
+        timeCaption="Time"
+        dateFormat="yyyy/MM/dd HH:mm"
+        filterDate={isWeekday}
+        filterTime={filterTime}
+      />
+      <button
+        type="submit"
+        className="px-4 py-2 mt-4 text-white bg-indigo-500 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
+      >
+        Submit
+      </button>
+    </form>
   );
 };
 
-export default MyForm;
+export default DateTime;
