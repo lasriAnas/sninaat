@@ -1,25 +1,120 @@
 "use client";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "utils/firebase";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import { auth, db } from "utils/firebase";
 import Firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import { Tab } from "@headlessui/react";
-import { Fragment, useState } from "react";
-import Image from "next/image";
+import { Fragment, useEffect, useRef, useState } from "react";
 import React from "react";
+import {
+  Firestore,
+  collection,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  serverTimestamp,
+  addDoc,
+} from "firebase/firestore";
+import Image from "next/image";
+import Calendar from "./Calendar";
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
+
+function SignOut() {
+  return (
+    auth.currentUser && (
+      <button
+        className="bg-cyan-500 rounded-md h-1/2 col-start-11 col-span-1 "
+        onClick={() => auth.signOut()}
+      >
+        Sign Out
+      </button>
+    )
+  );
+}
 
 export default function Dashboard() {
   const route = useRouter();
   const [user, loading] = useAuthState(auth);
+
+  function Chatroom() {
+    const dummy = useRef();
+    const messagesCollectionRef = collection(db, "messages");
+    const q = query(messagesCollectionRef, orderBy("createdAt"), limit(25));
+
+    const [messages] = useCollectionData(q, { idField: "id" });
+    const [formValue, setFormValue] = useState("");
+
+    const SendMessage = async (e) => {
+      e.preventDefault();
+      const uid = auth.currentUser.uid;
+      const email = auth.currentUser.email;
+
+      await addDoc(messagesCollectionRef, {
+        text: formValue,
+        createdAt: serverTimestamp(),
+        uid,
+        email,
+      });
+      setFormValue("");
+      dummy.current.scrollIntoView({ behavior: "smooth" });
+    };
+
+    return (
+      <>
+        <div className="h-[500px] overflow-y-scroll ">
+          {messages &&
+            messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
+          <div ref={dummy}></div>
+        </div>
+        <form onSubmit={SendMessage}>
+          <input
+            className="bg-slate-600 text-white rounded-l-md w-11/12 "
+            value={formValue}
+            onChange={(e) => setFormValue(e.target.value)}
+            key="1"
+          />
+          <button
+            className="w-1/12 bg-slate-400 text-slate-800 hover:text-white rounded-r-md px-3 hover:bg-slate-800"
+            type="submit"
+          >
+            send
+          </button>
+        </form>
+      </>
+    );
+  }
+
+  function ChatMessage(props) {
+    const { text, uid, email, createdAt } = props.message;
+    const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
+    const date =
+      createdAt &&
+      (createdAt.toDate ? createdAt.toDate().toLocaleString() : "");
+
+    return (
+      <div key={uid} className={`message ${messageClass}`}>
+        <p>{text}</p>
+        <h6 className="text-xs">
+          {email} | {date}
+        </h6>
+      </div>
+    );
+  }
   console.log(user);
 
   /* --------------------------------loading------------------------------ */
   if (loading)
     return (
       <div
-        className="min-h-screen bg-cyan-400 flex items-center justify-center"
+        className="min-h-screen bg-cyan-600 flex items-center justify-center"
         role="status"
       >
         <svg
@@ -46,8 +141,123 @@ export default function Dashboard() {
 
   if (user)
     return (
-      <div>
-        <div>gabagool</div>
+      <div className="flex-col min-h-screen bg-cyan-600 ">
+        <nav className="pl-6 h-16 bg-cyan-700 grid grid-cols-12 items-center">
+          <motion.div className="w-1/2 md:w-auto">
+            <a href="/" className="flex text-white font-bold text-2xl">
+              Sninaat
+              <Image
+                className="h-10 w-11 sm:h-10 "
+                src="/icons8-dental-crown-office-96.png"
+                width="40"
+                height="40"
+                alt="logo"
+              />
+            </a>
+          </motion.div>
+
+          <SignOut />
+        </nav>
+        <section className="flex  justify-center items-center ">
+          <div className="w-11/12 md:w-5/6 px-2 py-16 sm:px-0">
+            <Tab.Group>
+              <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
+                <Tab
+                  key="1"
+                  className={({ selected }) =>
+                    classNames(
+                      "w-full rounded-lg py-2.5 text-lg font-medium leading-5 text-black",
+                      "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
+                      selected
+                        ? "bg-white shadow"
+                        : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                    )
+                  }
+                >
+                  Calendrier
+                </Tab>
+                <Tab
+                  key="2"
+                  className={({ selected }) =>
+                    classNames(
+                      "w-full rounded-lg py-2.5 text-lg font-medium leading-5 text-black",
+                      "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
+                      selected
+                        ? "bg-white shadow"
+                        : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                    )
+                  }
+                >
+                  Chat
+                </Tab>
+              </Tab.List>
+              <Tab.Panels className="mt-2">
+                <Tab.Panel
+                  key="1"
+                  className={classNames(
+                    "rounded-xl bg-white p-3",
+                    "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
+                  )}
+                >
+                  <Calendar />
+                </Tab.Panel>
+                <Tab.Panel
+                  key="2"
+                  className={classNames(
+                    "rounded-xl bg-slate-700 p-3",
+                    "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
+                  )}
+                >
+                  <Chatroom />
+                </Tab.Panel>
+              </Tab.Panels>
+            </Tab.Group>
+          </div>
+        </section>
       </div>
     );
+}
+{
+  /* <div className="w-11/12 max-w-md px-2 py-16 sm:px-0">
+          <Tab.Group>
+            <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
+              {Object.keys(func).map((category) => (
+                <Tab
+                  key={category}
+                  className={({ selected }) =>
+                    classNames(
+                      "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
+                      "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
+                      selected
+                        ? "bg-white shadow"
+                        : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                    )
+                  }
+                >
+                  {category}
+                </Tab>
+              ))}
+            </Tab.List>
+            <Tab.Panels className="mt-2">
+              <Tab.Panel
+                key="1"
+                className={classNames(
+                  "rounded-xl bg-white p-3",
+                  "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
+                )}
+              >
+                bruh
+              </Tab.Panel>
+              <Tab.Panel
+                key="1"
+                className={classNames(
+                  "rounded-xl bg-white p-3",
+                  "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
+                )}
+              >
+                bingus
+              </Tab.Panel>
+            </Tab.Panels>
+          </Tab.Group>
+        </div> */
 }

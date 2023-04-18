@@ -9,6 +9,15 @@
   }
 }
 
+@layer components {
+  .sent {
+    @apply bg-green-500 text-white rounded-md ml-auto max-w-md py-2 px-4 mx-4 mb-4;
+  }
+  .received {
+    @apply bg-blue-500 text-white rounded-md max-w-md py-2 px-4 mb-4;
+  }
+}
+
 #menu-toggle:checked + #menu {
   display: block;
 }

@@ -44,7 +44,8 @@ export default function Info() {
   /* ---------<Navbar />-----------------------end data----------------------------- */
 
   return (
-    <div>
+    <div className="flex-col bg-cyan-600 pt-32">
+      <Navbar />
       <section className="flex justify-center items-center min-h-screen">
         <div className="w-11/12 md:w-5/6 px-2 py-16 sm:px-0">
           <Tab.Group>
@@ -54,11 +55,11 @@ export default function Info() {
                   key={category}
                   className={({ selected }) =>
                     classNames(
-                      "w-full rounded-lg py-2.5 text-lg font-medium leading-5 text-blue-700",
+                      "w-full rounded-lg py-2.5 text-lg font-medium leading-5 text-black",
                       "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
                       selected
                         ? "bg-white shadow"
-                        : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                        : "text-white hover:bg-white/[0.12] hover:text-white"
                     )
                   }
                 >

@@ -6,8 +6,38 @@ import { basicSchema } from "../schema";
 import DateTime from "./Datetime";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import axios from "axios";
+
+/* const checkEmailExistence = async (email) => {
+  try {
+    const response = await axios.get("https://api.zerobounce.net/v2/validate", {
+      params: {
+        email,
+        api_key: "your_api_key",
+        ip_address: "your_ip_address",
+      },
+    });
+
+    if (response.data.status === "valid") {
+      console.log("Email exists");
+      return true;
+    } else if (response.data.status === "invalid") {
+      console.log("Email does not exist");
+      return false;
+    } else {
+      console.log("Unknown email status");
+      return false;
+    }
+  } catch (error) {
+    console.error("Error checking email existence:", error);
+    return false;
+  }
+}; */
+
+checkEmailExistence("example@email.com");
 
 const onSubmit = async (values, actions) => {
+  checkEmailExistence("example@email.com");
   console.log(values);
   console.log(actions);
   await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -17,6 +47,17 @@ const onSubmit = async (values, actions) => {
 const isWeekday = (date) => {
   const day = date.getDay();
   return day !== 0 && day !== 6;
+};
+
+const excludeDates = [
+  new Date("2023-05-05"),
+  new Date("2023-05-25"),
+  new Date("2023-04-013"),
+];
+const isExcludedDate = (date) => {
+  return excludeDates.some((excludeDate) => {
+    return excludeDate.getTime() === date.getTime();
+  });
 };
 
 const filterTime = (time) => {
@@ -59,9 +100,6 @@ export default function Forms() {
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto min-h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow  md:mt-0 sm:max-w-md xl:p-0 ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-              Bienvenue
-            </h1>
             <form
               className="space-y-4 md:space-y-6"
               action="#"
@@ -169,8 +207,10 @@ export default function Forms() {
                 timeIntervals={60}
                 timeCaption="Time"
                 dateFormat="yyyy/MM/dd HH:mm"
-                filterDate={isWeekday}
+                /* filterDate={isWeekday} */
                 filterTime={filterTime}
+                excludeDates={excludeDates}
+                filterDate={(date) => isWeekday(date) && !isExcludedDate(date)}
               />
               <button
                 type="submit"

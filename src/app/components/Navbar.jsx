@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function Navbar() {
   return (
@@ -104,7 +105,7 @@ export default function Navbar() {
       </div>
 
       <div className="flex flex-wrap items-center justify-between py-6">
-        <div className="w-1/2 md:w-auto">
+        <motion.div className="w-1/2 md:w-auto">
           <a href="/" className="flex text-white font-bold text-2xl">
             Sninaat
             <Image
@@ -115,7 +116,7 @@ export default function Navbar() {
               alt="logo"
             />
           </a>
-        </div>
+        </motion.div>
 
         <label htmlFor="menu-toggle" className="pointer-cursor md:hidden block">
           <svg

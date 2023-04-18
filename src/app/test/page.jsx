@@ -1,52 +1,61 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import DatePicker from "react-datepicker";
-import { useFormik } from "formik";
 import "react-datepicker/dist/react-datepicker.css";
 
-const DateTime = () => {
-  const formik = useFormik({
-    initialValues: {
-      dateTime: new Date(),
-    },
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
+const App = () => {
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const excludeDates = [
+    new Date("2023-07-05"),
+    new Date("2023-12-25"),
+    new Date("2024-01-01"),
+  ];
+
+  const disabledTimes = [
+    new Date(0, 0, 0, 10, 0, 0), // 10:00 AM
+    new Date(0, 0, 0, 13, 0, 0), // 1:00 PM
+    new Date(0, 0, 0, 16, 0, 0), // 4:00 PM
+  ];
+
+  const isTimeDisabled = (date) => {
+    // Check if the date's time is in the disabledTimes array
+    return disabledTimes.some((disabledTime) => {
+      return (
+        date.getHours() === disabledTime.getHours() &&
+        date.getMinutes() === disabledTime.getMinutes()
+      );
+    });
+  };
 
   const isWeekday = (date) => {
     const day = date.getDay();
-    return day !== 0 && day !== 6;
+    return day !== 0 && day !== 6; // 0 = Sunday, 6 = Saturday
   };
 
-  const filterTime = (time) => {
-    const hour = time.getHours();
-    return hour >= 9 && hour <= 17;
+  const isExcludedDate = (date) => {
+    return excludeDates.some((excludeDate) => {
+      return excludeDate.getTime() === date.getTime();
+    });
   };
 
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <div className="container">
       <DatePicker
-        selected={formik.values.dateTime}
-        onChange={(value) => formik.setFieldValue("dateTime", value)}
-        name="dateTime"
-        className="block w-full p-2 rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:ring-opacity-50"
-        showTimeSelect
-        timeFormat="HH:mm"
+        selected={selectedDate}
         timeIntervals={60}
-        timeCaption="Time"
-        dateFormat="yyyy/MM/dd HH:mm"
-        filterDate={isWeekday}
-        filterTime={filterTime}
+        minTime={new Date(0, 0, 0, 9, 0, 0)}
+        maxTime={new Date(0, 0, 0, 18, 0, 0)}
+        timeFormat="HH:mm"
+        onChange={(date) => setSelectedDate(date)}
+        filterDate={(date) => isWeekday(date) && !isExcludedDate(date)}
+        excludeTime={isTimeDisabled}
+        excludeDates={excludeDates}
+        showTimeSelect
+        placeholderText="Select a date"
       />
-      <button
-        type="submit"
-        className="px-4 py-2 mt-4 text-white bg-indigo-500 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
-      >
-        Submit
-      </button>
-    </form>
+    </div>
   );
 };
 
-export default DateTime;
+export default App;

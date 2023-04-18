@@ -2,74 +2,46 @@
 
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
-import * as Yup from "yup";
-import { basicSchema } from "../schema";
 
+import { db } from "utils/firebase";
+import { addDoc, collection } from "firebase/firestore";
+import "firebase/firestore";
+
+import { basicSchema } from "../schema";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { setHours, setMinutes } from "date-fns";
 
-/* const onSubmit = async (values, actions) => {
-  console.log(values);
-  console.log(actions);
-  const data = values;
-  console.log(data * 2);
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  actions.resetForm();
+const excludeDates = [
+  new Date("2023-05-16"),
+  new Date("2023-06-23"),
+  new Date("2023-05-18"),
+];
+const isExcludedDate = (date) => {
+  return excludeDates.some((excludeDate) => {
+    return excludeDate.getTime() === date.getTime();
+  });
 };
- */
+const disabledTimes = [
+  new Date(0, 0, 0, 10, 0, 0), // 10:00 AM
+  new Date(0, 0, 0, 13, 0, 0), // 1:00 PM
+  new Date(0, 0, 0, 16, 0, 0), // 4:00 PM
+];
+const isTimeDisabled = (date) => {
+  // Check if the date's time is in the disabledTimes array
+  return disabledTimes.some((disabledTime) => {
+    return (
+      date.getHours() === disabledTime.getHours() &&
+      date.getMinutes() === disabledTime.getMinutes()
+    );
+  });
+};
 const isWeekday = (date) => {
   const day = date.getDay();
   return day !== 0 && day !== 6;
 };
 
-const filterTime = (time) => {
-  const hour = time.getHours();
-  return hour >= 9 && hour <= 17;
-};
-
 export default function Forms() {
-  /* const formik = useFormik({
-    initialValues: {
-      dateTime: new Date(),
-    },
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
-
-  const {
-    values,
-    errors,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    isSubmitting,
-  } = useFormik({
-    initialValues: {
-      lastName: "",
-      firstName: "",
-      phone: "",
-      email: "",
-      age: "",
-    },
-    validationSchema: basicSchema,
-    onSubmit,
-  }); */
-
-  const [data, setData] = useState();
-
-  const onSubmit = async (values, actions) => {
-    console.log(values);
-    console.log(actions);
-    if (values) {
-      setData(JSON.stringify(values, null, 2));
-      console.log(data);
-    } else console.log("kys");
-
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    actions.resetForm();
-  };
-
   const formik = useFormik({
     initialValues: {
       lastName: "",
@@ -80,14 +52,30 @@ export default function Forms() {
       dateTime: new Date(),
     },
     validationSchema: basicSchema,
-    onSubmit: async (values) => {
-      console.log(values);
-      /* console.log(actions); */
-      setData(values);
-      console.log(data);
+    onSubmit: async (values, actions) => {
+      try {
+        const appointmentsCollectionRef = collection(db, "appointments");
+        await addDoc(appointmentsCollectionRef, values);
+        actions.resetForm();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    /*  async (values) => {
+      const appointmentsCollectionRef = collection(db, "appointments");
+      const addAppointement = async (e) => {
+        await addDoc(appointmentsCollectionRef, {
+          lastName: values.lastName,
+          firstName: values.firstName,
+          phone: values.phone,
+          email: values.email,
+          age: values.age,
+          dateTime: values.dateTime,
+        });
+      };
       await new Promise((resolve) => setTimeout(resolve, 1000));
       actions.resetForm();
-    },
+    }, */
   });
 
   const {
@@ -112,9 +100,6 @@ export default function Forms() {
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto min-h-screen min-w-full lg:py-0">
         <div className="w-full bg-white rounded-lg shadow  md:mt-0 sm:max-w-md xl:p-0 ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-              Bienvenue
-            </h1>
             <form
               className="space-y-4 md:space-y-6"
               action="#"
@@ -186,7 +171,7 @@ export default function Forms() {
                   value={values.phone}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  type="number"
+                  type="text"
                   id="phone"
                   placeholder="0-123-456-789"
                   className="text-gray-200 border border-gray-300  sm:text-sm rounded-lg block w-full p-2.5 bg-gray-700  placeholder-gray-400"
@@ -212,6 +197,7 @@ export default function Forms() {
                   required={true}
                 ></input>
               </div>
+              <label htmlFor="dateTime">Date et heur</label>
               <DatePicker
                 selected={values.dateTime}
                 onChange={(value) => formik.setFieldValue("dateTime", value)}
@@ -222,8 +208,14 @@ export default function Forms() {
                 timeIntervals={60}
                 timeCaption="Time"
                 dateFormat="yyyy/MM/dd HH:mm"
-                filterDate={isWeekday}
-                filterTime={filterTime}
+                minTime={new Date(0, 0, 0, 9, 0, 0)}
+                maxTime={new Date(0, 0, 0, 18, 0, 0)}
+                /* filterDate={isWeekday} */
+                filterDate={(date) => isWeekday(date) && !isExcludedDate(date)}
+                excludeDates={excludeDates}
+                /* filterTime={filterTime} */
+                minDate={new Date()}
+                /* filterTime={isTimeDisabled} */
               />
               <button
                 type="submit"
@@ -239,3 +231,30 @@ export default function Forms() {
     </section>
   );
 }
+/* const formik = useFormik({
+    initialValues: {
+      dateTime: new Date(),
+    },
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
+
+  const {
+    values,
+    errors,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    isSubmitting,
+  } = useFormik({
+    initialValues: {
+      lastName: "",
+      firstName: "",
+      phone: "",
+      email: "",
+      age: "",
+    },
+    validationSchema: basicSchema,
+    onSubmit,
+  }); */
