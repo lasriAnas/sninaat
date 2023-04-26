@@ -17,12 +17,35 @@ import "firebase/firestore";
 import { collection, query } from "firebase/firestore";
 
 export default function Calendar() {
+  const [data, setData] = useState([]);
   const appointmentsCollectionRef = collection(db, "appointments");
   const q = query(appointmentsCollectionRef);
   const [appointments] = useCollectionData(q, { idField: "id" });
-  console.log(appointments);
 
-  function useFirestoreCollection(collection) {
+  useEffect(() => {
+    if (appointments) {
+      const outputArray = appointments.map((obj, idx) => ({
+        Id: idx + 1,
+        Subject: `${obj.firstName} ${obj.lastName} ${obj.phone}`,
+        StartTime: new Date(obj.dateTime.seconds * 1000),
+        EndTime: new Date(obj.dateTime.seconds * 1000 + 3600000), // end time is one hour after start time
+      }));
+      setData(outputArray);
+      console.log(outputArray);
+    }
+  }, [appointments]);
+  if (data)
+    return (
+      <ScheduleComponent
+        height="550px"
+        selectedDate={new Date()}
+        eventSettings={{ dataSource: data }}
+      >
+        <Inject services={[Day, Week, WorkWeek, Month, Agenda]} />
+      </ScheduleComponent>
+    );
+}
+/*   function useFirestoreCollection(collection) {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -39,8 +62,8 @@ export default function Calendar() {
     }, [collection]);
 
     return [data, loading];
-  }
-  /* let data = [
+  } */
+/* let data = [
     {
       Id: 1,
       Subject: "Explosion of Betelgeuse Star",
@@ -66,15 +89,4 @@ export default function Calendar() {
       EndTime: new Date(2018, 1, 14, 14, 30),
     },
   ]; */
-  /* const eventSettings = { dataSource: data }; */
-
-  return (
-    <ScheduleComponent
-      height="550px"
-      selectedDate={new Date(2018, 1, 15)}
-      /* eventSettings={eventSettings} */
-    >
-      <Inject services={[Day, Week, WorkWeek, Month, Agenda]} />
-    </ScheduleComponent>
-  );
-}
+/* const eventSettings = { dataSource: data }; */

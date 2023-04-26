@@ -1,6 +1,34 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
+
+import { db } from "utils/firebase";
+import { addDoc, collection } from "firebase/firestore";
+import "firebase/firestore";
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [isValidEmail, setIsValidEmail] = useState(false);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const docRef = await addDoc(collection(db, "subscribers"), { email });
+      setEmail("");
+      setIsValidEmail(false);
+      alert("Thank you for subscribing!");
+    } catch (error) {
+      console.error("Error writing subscriber to Firestore", error);
+      alert("An error occurred. Please try again later.");
+    }
+  };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+    setIsValidEmail(event.target.checkValidity());
+  };
+
   return (
     <div className="mt-auto w-full h-20 bg-gradient-to-l from-cyan-700 via-cyan-500 to-cyan-300">
       <footer className="relative bg-gray-900 text-white px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 py-12 lg:py-24">
@@ -11,7 +39,7 @@ export default function Footer() {
               Une Meilleur Vie Commence Avec Un Beau Sourire.
             </p>
 
-            <form className="flex items-center mt-6">
+            <form onSubmit={handleSubmit} className="flex items-center mt-6">
               <div className="w-full">
                 <label
                   className="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2"
@@ -24,6 +52,8 @@ export default function Footer() {
                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-4 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     type="email"
                     placeholder="Entrez votre E-mail"
+                    onChange={handleEmailChange}
+                    required
                   />
 
                   <button

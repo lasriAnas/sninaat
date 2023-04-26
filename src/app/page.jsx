@@ -9,6 +9,7 @@ import Testimonial from "./components/Testimonial";
 import Forms from "./components/Form";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import Map from "./components/Map";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
       <Testimonial />
       <Blog />
       <Cta />
+      <Map />
       <Footer />
     </main>
   );

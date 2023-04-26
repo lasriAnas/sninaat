@@ -1,5 +1,36 @@
 "use client";
-import React, { useState } from "react";
+
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+export default function MyDatePicker() {
+  const disabledTime = new Date("2023-05-01T14:00:00");
+
+  // Filter function to disable the specific time
+  const filterTime = (time) => {
+    return time.getTime() !== disabledTime.getTime();
+  };
+
+  return (
+    <>
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8959.424367359617!2d-6.849695552970757!3d33.99566978430847!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda76c8f7837968b%3A0x6eb7a868063bb38b!2sAgdal-Ryad%2C%20Rabat!5e0!3m2!1sen!2sma!4v1682001699266!5m2!1sen!2sma"
+        width="600"
+        height="450"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+      <DatePicker
+        excludeTimes={[disabledTime]}
+        showTimeSelect
+        filterTime={filterTime}
+      />
+    </>
+  );
+}
+
+/* import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -59,3 +90,4 @@ const App = () => {
 };
 
 export default App;
+ */

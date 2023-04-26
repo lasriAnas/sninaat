@@ -61,21 +61,6 @@ export default function Forms() {
         console.log(error);
       }
     },
-    /*  async (values) => {
-      const appointmentsCollectionRef = collection(db, "appointments");
-      const addAppointement = async (e) => {
-        await addDoc(appointmentsCollectionRef, {
-          lastName: values.lastName,
-          firstName: values.firstName,
-          phone: values.phone,
-          email: values.email,
-          age: values.age,
-          dateTime: values.dateTime,
-        });
-      };
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      actions.resetForm();
-    }, */
   });
 
   const {
@@ -88,7 +73,7 @@ export default function Forms() {
   } = formik;
   console.log(errors);
   return (
-    <section className="bg-cyan-400 min-h-screen grid grid-cols-2">
+    <section className="bg-cyan-400 min-h-screen grid grid-cols-1">
       <div className="flex flex-col justify-center items-start px-16">
         <h1 className="text-gray-800 text-7xl">Bienvenue</h1>
         <br />
