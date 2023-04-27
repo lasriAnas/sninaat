@@ -32,12 +32,10 @@ import axios from "axios";
     console.error("Error checking email existence:", error);
     return false;
   }
-}; */
-
+}; 
 checkEmailExistence("example@email.com");
-
+*/
 const onSubmit = async (values, actions) => {
-  checkEmailExistence("example@email.com");
   console.log(values);
   console.log(actions);
   await new Promise((resolve) => setTimeout(resolve, 1000));

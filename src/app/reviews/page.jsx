@@ -27,12 +27,12 @@ export default function Reviews() {
       <section className="pt-52">
         <div className="bg-white py-24 ">
           <h1 className="w-full text-center text-xl">Commentaires: </h1>
-          <div className=" grid grid-cols-3 ">
+          <div className=" grid grid-cols-1 sm:grid-cols-3 ">
             {reviews.map((review) => {
               return (
                 <div
                   key={review.id}
-                  className="md:px-4 md:w-1/2 xl:w-full gap-3 mt-12"
+                  className="md:px-4 md:w-1/2 w-5/6 items-center xl:w-full gap-3 mt-12 mx-auto"
                 >
                   <div className="bg-white rounded border border-gray-300">
                     <div className="w-full h-48 overflow-hidden bg-gray-300"></div>

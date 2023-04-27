@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 export default function Testimonial() {
@@ -22,11 +23,15 @@ export default function Testimonial() {
         </div>
 
         <div className="w-full md:max-w-md md:mx-auto lg:w-1/2 lg:px-8 mt-12 mt:md-0">
-          <div className="bg-gray-400 w-full h-72 rounded-lg"></div>
-
-          <p className="italic text-sm mt-2 text-center">
-            Aenean ante nisi, gravida non mattis semper.
-          </p>
+          <div className=" w-full h-72 rounded-lg">
+            <Image
+              alt="img"
+              src="/images/istockphoto-171573917-612x612.jpg"
+              width="600"
+              height="288"
+              className="rounded-lg"
+            ></Image>
+          </div>
         </div>
       </div>
     </section>
